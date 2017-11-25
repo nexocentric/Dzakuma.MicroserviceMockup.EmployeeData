@@ -37,18 +37,18 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 		[InlineData("-h")]
 		[InlineData("/help")]
 		[InlineData("/h")]
-		public void ShouldReturnOneAsAnErrorCode_IfExecutableCalledWithTheHelpOption(string helpArgument)
+		public void ShouldReturnHelpDispayedErrorCode_IfExecutableCalledWithHelpArgument(string argument)
 		{
-			var exitCode = StartExecutableProgram(_testProgramName, helpArgument);
-			Assert.Equal(1, exitCode);
+			var exitCode = StartExecutableProgram(_testProgramName, argument);
+			Assert.Equal((int)EmployeeDataService.RetunCodes.HelpDisplayed, exitCode);
 		}
 
 	    [Fact]
-	    public void ShouldReturnOneAsAnErrorCode_IfExecutableCalledWithNoOptions()
+	    public void ShouldReturnHelpDisplayedErrorCode_IfExecutableCalledWithNoArguments()
 	    {
 		    var exitCode = StartExecutableProgram(_testProgramName);
-		    Assert.Equal(1, exitCode);
-	    }
+			Assert.Equal((int)EmployeeDataService.RetunCodes.HelpDisplayed, exitCode);
+		}
 
 	    [Theory]
 	    [InlineData("--version")]
@@ -57,11 +57,11 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 	    [InlineData("-v")]
 	    [InlineData("/version")]
 	    [InlineData("/v")]
-	    public void ShouldReturnTwoAsAnErrorCode_IfExecutableCalledWithTheHelpOption(string helpArgument)
+	    public void ShouldReturnVersionInformationDisplayedErrorCode_IfExecutableCalledWithVersionArgument(string argument)
 	    {
-		    var exitCode = StartExecutableProgram(_testProgramName, helpArgument);
-		    Assert.Equal(2, exitCode);
-	    }
+		    var exitCode = StartExecutableProgram(_testProgramName, argument);
+			Assert.Equal((int)EmployeeDataService.RetunCodes.VersionInformationDisplayed, exitCode);
+		}
 
 	    [Theory]
 	    [InlineData("--test")]
@@ -70,10 +70,10 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 	    [InlineData("-t")]
 	    [InlineData("/test")]
 	    [InlineData("/t")]
-	    public void ShouldReturnThreeAsAnErrorCode_IfExecutableCalledWithTheHelpOption(string helpArgument)
+	    public void ShouldReturnTestsRuneErrorCode_IfExecutableCalledWithTestArgument(string argument)
 	    {
-		    var exitCode = StartExecutableProgram(_testProgramName, helpArgument);
-		    Assert.Equal(3, exitCode);
-	    }
+		    var exitCode = StartExecutableProgram(_testProgramName, argument);
+			Assert.Equal((int)EmployeeDataService.RetunCodes.TestsRun, exitCode);
+		}
 	}
 }

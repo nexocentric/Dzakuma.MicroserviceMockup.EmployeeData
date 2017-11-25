@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -21,6 +22,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 		private static bool _displayHelp = false;
 		private static uint _selectedId;
 
+		private static EmployeeDatabaseMockup _databaseConnection = new EmployeeDatabaseMockup();
 		private static OptionSet _programOptions;
 		private static Logger _internalLogger = LogManager.GetCurrentClassLogger();
 
@@ -33,7 +35,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 			TestsRun
 		}
 
-		static int Main(string[] args)
+		public static int Main(string[] args)
 		{
 			try
 			{
@@ -44,26 +46,29 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 
 				if (_displayHelp)
 				{
-					DisplayHelp();
-					return (int)RetunCodes.HelpDisplayed;
+					return DisplayHelp();
 				}
 
 				if (_displayVersionInformation)
 				{
+					//TODO: Illustrate how the void is bad and how it can be
+					//      improved by returning something
 					DisplayVersionInformation();
 					return (int)RetunCodes.VersionInformationDisplayed;
 				}
 
 				if (_runTests)
 				{
-					RunTests();
-					return (int)RetunCodes.TestsRun;
+					return RunTests();
 				}
 
-				OutputSinglePersonById(_selectedId);
-				OutputMoviePreferences(_selectedId, _outputMoviePreferences);
-				OutputGeneralInformation(_selectedId, _outputGeneralInformation);
-				OutputPersonnelList(_outputPersonnelList);
+				if (!_outputMoviePreferences && !_outputGeneralInformation && !_outputPersonnelList)
+				{
+					Console.Error.Write(OutputSinglePersonById(_selectedId));
+				}
+				//Console.Error.Write(OutputMoviePreferences(_selectedId, _outputMoviePreferences));
+				//Console.Error.Write(OutputGeneralInformation(_selectedId, _outputGeneralInformation));
+				Console.Error.Write(EncodeTextForCommandLine(OutputPersonnelList(_outputPersonnelList)));
 
 				return (int)RetunCodes.NormalOperation;
 			}
@@ -74,7 +79,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 			}
 		}
 
-		static bool ValidateProgramArguments(string[] args)
+		public static bool ValidateProgramArguments(string[] args)
 		{
 			try
 			{
@@ -85,6 +90,14 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 					_internalLogger.Trace("The following arguments were extra.");
 					return false;
 				}
+
+				//TODO: Implement this as a fix for one of the failing tests
+				//correct answer is args.count
+				/*if (extraParameters.Count == 0)
+				{
+					_internalLogger.Trace("This program requires arguments.");
+					return false;
+				}*/
 
 				if (!_displayVersionInformation && !_runTests && !_outputPersonnelList && _selectedId == 0)
 				{
@@ -101,7 +114,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 			}
 		}
 
-		static OptionSet InitializeProgramOptions()
+		public static OptionSet InitializeProgramOptions()
 		{
 			return new OptionSet
 			{
@@ -115,7 +128,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 			};
 		}
 
-		private static void DisplayHelp()
+		public static int DisplayHelp()
 		{
 			DisplayVersionInformation();
 			Console.Error.WriteLine();
@@ -130,38 +143,52 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 			// output the options
 			Console.Error.WriteLine("Options:");
 			_programOptions.WriteOptionDescriptions(Console.Error);
+
+			return (int)RetunCodes.HelpDisplayed;
 		}
 
-		private static void DisplayVersionInformation()
+		public static void DisplayVersionInformation()
 		{
 			Console.Error.Write("Program: ");
 			Console.Error.Write(typeof(EmployeeDataService).Assembly.GetName().Name + " ");
 			Console.Error.WriteLine(typeof(EmployeeDataService).Assembly.GetName().Version);
 		}
 
-		private static void RunTests()
+		public static string EncodeTextForCommandLine(string text)
+		{
+			return TransportSafeString.Encode(text);
+		}
+
+		public static int RunTests()
 		{
 			Console.Error.Write("Mockup of tests run on the platform.");
+			return (int) RetunCodes.TestsRun;
 		}
 
-		private static void OutputSinglePersonById(uint selectedId)
+		public static string OutputSinglePersonById(uint selectedId)
 		{
+			if (!(selectedId > 0)) { return ""; }
 			throw new NotImplementedException();
 		}
 
-		private static void OutputMoviePreferences(uint selectedId, bool outputMoviePreferences)
+		public static string OutputMoviePreferences(uint selectedId, bool outputMoviePreferences)
 		{
+			if (!(selectedId > 0)) { return ""; }
+			if (!outputMoviePreferences) { return ""; }
 			throw new NotImplementedException();
 		}
 
-		private static void OutputGeneralInformation(uint selectedId, bool outputGeneralInformation)
+		public static string OutputGeneralInformation(uint selectedId, bool outputGeneralInformation)
 		{
+			if (!(selectedId > 0)) { return ""; }
+			if (!outputGeneralInformation) { return ""; }
 			throw new NotImplementedException();
 		}
 
-		private static void OutputPersonnelList(bool outputPersonnelList)
+		public static string OutputPersonnelList(bool outputPersonnelList)
 		{
-			throw new NotImplementedException();
+			if (!outputPersonnelList) { return ""; }
+			return _databaseConnection.OutputPersonnelList();
 		}
 	}
 }

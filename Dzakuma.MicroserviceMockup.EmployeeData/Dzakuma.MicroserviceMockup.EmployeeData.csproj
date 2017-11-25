@@ -51,8 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmployeeDatabaseMockup.cs" />
     <Compile Include="EmployeeDataService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransportSafeString.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
