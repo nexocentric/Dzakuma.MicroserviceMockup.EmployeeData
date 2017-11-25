@@ -8,14 +8,14 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 		public class ValidateProgramArguments
 		{
 			[Fact]
-			public void ShouldReturnFalse_IfCalledWithTooManyArguments()
+			public void ShouldReturn_False_IfCalledWithTooManyArguments()
 			{
 				string arguments = "-a -b -c -d -e -f -g -i -j -k -l -m -n -o -p -q";
 				Assert.False(EmployeeDataService.ValidateProgramArguments(arguments.Split(' ')));
 			}
 
 			[Fact]
-			public void ShouldReturnFalse_IfCalledWithNoArguments()
+			public void ShouldReturn_False_IfCalledWithNoArguments()
 			{
 				Assert.False(EmployeeDataService.ValidateProgramArguments(new string[] {}));
 			}

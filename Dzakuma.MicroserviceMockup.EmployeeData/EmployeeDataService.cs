@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Mono.Options;
 using NLog;
-using NLog.Targets;
 
 namespace Dzakuma.MicroserviceMockup.EmployeeData
 {
@@ -64,10 +56,10 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 
 				if (!_outputMoviePreferences && !_outputGeneralInformation && !_outputPersonnelList)
 				{
-					Console.Error.Write(OutputSinglePersonById(_selectedId));
+					Console.Error.Write(EncodeTextForCommandLine(OutputSinglePersonById(_selectedId)));
 				}
-				Console.Error.Write(OutputMoviePreferencesById(_selectedId, _outputMoviePreferences));
-				Console.Error.Write(OutputGeneralInformationById(_selectedId, _outputGeneralInformation));
+				Console.Error.Write(EncodeTextForCommandLine(OutputMoviePreferencesById(_selectedId, _outputMoviePreferences)));
+				Console.Error.Write(EncodeTextForCommandLine(OutputGeneralInformationById(_selectedId, _outputGeneralInformation)));
 				Console.Error.Write(EncodeTextForCommandLine(OutputPersonnelList(_outputPersonnelList)));
 
 				return (int)RetunCodes.NormalOperation;
@@ -121,7 +113,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 				{ "v|version", "Version information for this program.", o => { if (o != null) { _displayVersionInformation = true; } } },
 				{ "h|help", "Displays this message and exits.", o => { if (o != null) { _displayHelp = true; } } },
 				{ "t|test", "Runs diagnostic tests on this service.", o => { if (o != null) { _runTests = true; } } },
-				{ "i|id", "Gets information for the person matching the specified ID.", (uint o) => _selectedId = o },
+				{ "i|id=", "Gets information for the person matching the specified ID.", (uint o) => _selectedId = o },
 				{ "m|movie", "Gets the movie preferences of the specified ID. ID must be specified.", o => { if (o != null) { _outputMoviePreferences = true; } } },
 				{ "g|general", "Gets general information for the specified ID. ID must be specified.", o => { if (o != null) { _outputGeneralInformation = true; } } },
 				{ "a|all", "Gets a list of all personnel.", o => { if (o != null) { _outputPersonnelList = true; } } },
