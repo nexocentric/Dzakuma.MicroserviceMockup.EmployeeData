@@ -84,7 +84,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 					return false;
 				}
 
-				if (!_outputPersonnelList && _selectedId == 0)
+				if (!_displayVersionInformation && !_outputPersonnelList && _selectedId == 0)
 				{
 					_internalLogger.Trace("No appropriate options were selected.");
 					return false;
@@ -115,6 +115,9 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 
 		private static void DisplayHelp()
 		{
+			DisplayVersionInformation();
+			Console.Error.WriteLine();
+
 			//short application usage message
 			Console.Error.WriteLine("Usage: Dzakuma.MicroserviceMockup.EmployeeData.exe -[options]");
 			Console.Error.WriteLine("Returns the specified employee data to the command line in JSON format.");
@@ -125,11 +128,15 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 			// output the options
 			Console.Error.WriteLine("Options:");
 			_programOptions.WriteOptionDescriptions(Console.Error);
+
+			Console.ReadLine();
 		}
 
 		private static void DisplayVersionInformation()
 		{
-			throw new NotImplementedException();
+			Console.Error.Write("Program: ");
+			Console.Error.Write(typeof(EmployeeDataService).Assembly.GetName().Name + " ");
+			Console.Error.WriteLine(typeof(EmployeeDataService).Assembly.GetName().Version);
 		}
 
 		private static void RunTests()
