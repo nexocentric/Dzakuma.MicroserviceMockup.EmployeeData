@@ -65,10 +65,23 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 			}
 		}
 
+		public class RunTests
+		{
+			[Fact]
+			public void ShouldReturnTestsRunEnum_WhenCalled()
+			{
+				EmployeeDataService.InitializeProgramOptions();
+				Assert.Equal(
+					(int)EmployeeDataService.RetunCodes.TestsRun,
+					EmployeeDataService.RunTests()
+				);
+			}
+		}
+
 		public class EncodeTextForCommandLine
 		{
 			[Fact]
-			public void ReturnsBase64EncodedString_WhenPassedAnyString()
+			public void ShouldReturn_Base64EncodedString_WhenPassedAnyString()
 			{
 				string inputString = "something";
 				string encodedString = EmployeeDataService.EncodeTextForCommandLine(inputString);
@@ -77,6 +90,54 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 				//conversion class
 				byte[] HashBytes = Convert.FromBase64String(encodedString);
 				Assert.NotEqual(encodedString, inputString);
+			}
+		}
+
+		public class OutputSinglePersonById
+		{
+			[Fact]
+			public void ShouldReturn_BlankString_WhenGivenBadId()
+			{
+				Assert.Empty(EmployeeDataService.OutputSinglePersonById(0));
+			}
+		}
+
+		public class OutputMoviePreferenceById
+		{
+			[Fact]
+			public void ShouldReturn_BlankString_WhenGivenBadId()
+			{
+				Assert.Empty(EmployeeDataService.OutputMoviePreferencesById(0, true));
+			}
+
+			[Fact]
+			public void ShouldReturn_BlankString_WhenOutputFlagIsFalse()
+			{
+				Assert.Empty(EmployeeDataService.OutputMoviePreferencesById(1, false));
+			}
+		}
+
+		public class OutputGeneralInformationById
+		{
+			[Fact]
+			public void ShouldReturn_BlankString_WhenGivenBadId()
+			{
+				Assert.Empty(EmployeeDataService.OutputGeneralInformationById(0, true));
+			}
+
+			[Fact]
+			public void ShouldReturn_BlankString_WhenOutputFlagIsFalse()
+			{
+				Assert.Empty(EmployeeDataService.OutputGeneralInformationById(1, false));
+			}
+		}
+
+		public class OutputPersonnelList
+		{
+			[Fact]
+			public void ShouldReturn_BlankString_WhenOutputFlagIsFalse()
+			{
+				Assert.Empty(EmployeeDataService.OutputPersonnelList(false));
 			}
 		}
 	}

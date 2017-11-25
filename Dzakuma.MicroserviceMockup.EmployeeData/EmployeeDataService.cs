@@ -66,8 +66,8 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 				{
 					Console.Error.Write(OutputSinglePersonById(_selectedId));
 				}
-				//Console.Error.Write(OutputMoviePreferences(_selectedId, _outputMoviePreferences));
-				//Console.Error.Write(OutputGeneralInformation(_selectedId, _outputGeneralInformation));
+				Console.Error.Write(OutputMoviePreferencesById(_selectedId, _outputMoviePreferences));
+				Console.Error.Write(OutputGeneralInformationById(_selectedId, _outputGeneralInformation));
 				Console.Error.Write(EncodeTextForCommandLine(OutputPersonnelList(_outputPersonnelList)));
 
 				return (int)RetunCodes.NormalOperation;
@@ -168,21 +168,21 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 		public static string OutputSinglePersonById(uint selectedId)
 		{
 			if (!(selectedId > 0)) { return ""; }
-			throw new NotImplementedException();
+			return _databaseConnection.OutputSinglePerson(selectedId);
 		}
 
-		public static string OutputMoviePreferences(uint selectedId, bool outputMoviePreferences)
+		public static string OutputMoviePreferencesById(uint selectedId, bool outputMoviePreferences)
 		{
 			if (!(selectedId > 0)) { return ""; }
 			if (!outputMoviePreferences) { return ""; }
-			throw new NotImplementedException();
+			return _databaseConnection.OutputMoviePreferences(selectedId);
 		}
 
-		public static string OutputGeneralInformation(uint selectedId, bool outputGeneralInformation)
+		public static string OutputGeneralInformationById(uint selectedId, bool outputGeneralInformation)
 		{
 			if (!(selectedId > 0)) { return ""; }
 			if (!outputGeneralInformation) { return ""; }
-			throw new NotImplementedException();
+			return _databaseConnection.OutputGeneralInformation(selectedId);
 		}
 
 		public static string OutputPersonnelList(bool outputPersonnelList)
