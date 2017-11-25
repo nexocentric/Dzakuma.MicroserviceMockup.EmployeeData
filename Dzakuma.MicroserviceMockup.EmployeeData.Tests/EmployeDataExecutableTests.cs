@@ -62,5 +62,18 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 		    var exitCode = StartExecutableProgram(_testProgramName, helpArgument);
 		    Assert.Equal(2, exitCode);
 	    }
+
+	    [Theory]
+	    [InlineData("--test")]
+	    [InlineData("--t")]
+	    [InlineData("-test")]
+	    [InlineData("-t")]
+	    [InlineData("/test")]
+	    [InlineData("/t")]
+	    public void ShouldReturnThreeAsAnErrorCode_IfExecutableCalledWithTheHelpOption(string helpArgument)
+	    {
+		    var exitCode = StartExecutableProgram(_testProgramName, helpArgument);
+		    Assert.Equal(3, exitCode);
+	    }
 	}
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Mono.Options;
 using NLog;
@@ -84,7 +86,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 					return false;
 				}
 
-				if (!_displayVersionInformation && !_outputPersonnelList && _selectedId == 0)
+				if (!_displayVersionInformation && !_runTests && !_outputPersonnelList && _selectedId == 0)
 				{
 					_internalLogger.Trace("No appropriate options were selected.");
 					return false;
@@ -128,8 +130,6 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 			// output the options
 			Console.Error.WriteLine("Options:");
 			_programOptions.WriteOptionDescriptions(Console.Error);
-
-			Console.ReadLine();
 		}
 
 		private static void DisplayVersionInformation()
@@ -141,7 +141,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 
 		private static void RunTests()
 		{
-			throw new NotImplementedException();
+			Console.Error.Write("Mockup of tests run on the platform.");
 		}
 
 		private static void OutputSinglePersonById(uint selectedId)
