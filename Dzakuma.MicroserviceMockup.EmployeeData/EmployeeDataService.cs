@@ -19,43 +19,65 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 		private static bool _displayHelp = false;
 		private static uint _selectedId;
 
+		private static OptionSet _programOptions;
 		private static Logger _internalLogger = LogManager.GetCurrentClassLogger();
+
+		public enum RetunCodes
+		{
+			FatalError = -1,
+			NormalOperation = 0,
+			HelpDisplayed,
+			VersionInformationDisplayed,
+			TestsRun
+		}
 
 		static int Main(string[] args)
 		{
-			if (!ValidateProgramArguments(args)) { _displayHelp = true; }
-
-			if (_displayHelp)
+			try
 			{
-				DisplayHelp();
-				return 1;
-			}
+				if (!ValidateProgramArguments(args))
+				{
+					_displayHelp = true;
+				}
 
-			if (_displayVersionInformation)
+				if (_displayHelp)
+				{
+					DisplayHelp();
+					return (int)RetunCodes.HelpDisplayed;
+				}
+
+				if (_displayVersionInformation)
+				{
+					DisplayVersionInformation();
+					return (int)RetunCodes.VersionInformationDisplayed;
+				}
+
+				if (_runTests)
+				{
+					RunTests();
+					return (int)RetunCodes.TestsRun;
+				}
+
+				OutputSinglePersonById(_selectedId);
+				OutputMoviePreferences(_selectedId, _outputMoviePreferences);
+				OutputGeneralInformation(_selectedId, _outputGeneralInformation);
+				OutputPersonnelList(_outputPersonnelList);
+
+				return (int)RetunCodes.NormalOperation;
+			}
+			catch (Exception anomaly)
 			{
-				DisplayVersionInformation();
-				return 2;
+				_internalLogger.Fatal(anomaly, "An unhandled error was trapped by the main process of this program.");
+				return (int)RetunCodes.FatalError;
 			}
-
-			if (_runTests)
-			{
-				RunTests();
-				return 3;
-			}
-
-			OutputSinglePersonById(_selectedId);
-			OutputMoviePreferences(_selectedId, _outputMoviePreferences);
-			OutputGeneralInformation(_selectedId, _outputGeneralInformation);
-			OutputPersonnelList(_outputPersonnelList);
-
-			return 0;
 		}
 
 		static bool ValidateProgramArguments(string[] args)
 		{
 			try
 			{
-				var extraParameters = InitializeProgramOptions().Parse(args);
+				_programOptions = InitializeProgramOptions();
+				var extraParameters = _programOptions.Parse(args);
 				if (extraParameters.Count > 0)
 				{
 					_internalLogger.Trace("The following arguments were extra.");
@@ -93,7 +115,16 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 
 		private static void DisplayHelp()
 		{
-			throw new NotImplementedException();
+			//short application usage message
+			Console.Error.WriteLine("Usage: Dzakuma.MicroserviceMockup.EmployeeData.exe -[options]");
+			Console.Error.WriteLine("Returns the specified employee data to the command line in JSON format.");
+			Console.Error.WriteLine();
+			Console.Error.WriteLine("If no parameters are specified displays help message.");
+			Console.Error.WriteLine();
+
+			// output the options
+			Console.Error.WriteLine("Options:");
+			_programOptions.WriteOptionDescriptions(Console.Error);
 		}
 
 		private static void DisplayVersionInformation()
