@@ -8,7 +8,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 		public class Encode
 		{
 			[Fact]
-			public void ReturnsBase64EncodedString_WhenPassedAnyString()
+			public void ShouldReturn_Base64EncodedString_WhenPassedAnyString()
 			{
 				string inputString = "something";
 				string encodedString = TransportSafeString.Encode(inputString);
@@ -23,7 +23,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 		public class Decode
 		{
 			[Fact]
-			public void ReturnsDecodedString_WhenPassedAnEncodedString()
+			public void ShouldReturn_DecodedString_WhenPassedAnEncodedString()
 			{
 				string inputString = "something";
 				string encodedString = TransportSafeString.Encode(inputString);

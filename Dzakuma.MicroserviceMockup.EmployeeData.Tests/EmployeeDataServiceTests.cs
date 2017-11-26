@@ -21,7 +21,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 			}
 
 			[Fact]
-			public void ShouldReturnFalse_IfCalledWithCompletelyBadArguments()
+			public void ShouldReturn_False_IfCalledWithCompletelyBadArguments()
 			{
 				string arguments = "- -";
 				Assert.False(EmployeeDataService.ValidateProgramArguments(arguments.Split(' ')));
@@ -34,7 +34,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 			[InlineData("-m -i")]
 			[InlineData("-g -i")]
 			[InlineData("-a -i")]
-			public void ShouldReturnTrue_IfCalledWithTheAppropriateArguments(string arguments)
+			public void ShouldReturn_True_IfCalledWithTheAppropriateArguments(string arguments)
 			{
 				Assert.False(EmployeeDataService.ValidateProgramArguments(arguments.Split(' ')));
 			}
@@ -43,7 +43,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 		public class InitializeProgramOptions
 		{
 			[Fact]
-			public void ShouldReturnSevenOptions_WhenCalled()
+			public void ShouldReturn_SevenOptions_WhenCalled()
 			{
 				Assert.Equal(
 					7,
@@ -52,10 +52,16 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 			}
 		}
 
+		public class DisplayVersionInformation
+		{
+			//TODO: implement display version information tests
+			//      should be exactly like display help test
+		}
+
 		public class DisplayHelp
 		{
 			[Fact]
-			public void ShouldReturnHelpDisplayedEnum_WhenCalled()
+			public void ShouldReturn_HelpDisplayedEnum_WhenCalled()
 			{
 				EmployeeDataService.InitializeProgramOptions();
 				Assert.Equal(
@@ -68,7 +74,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 		public class RunTests
 		{
 			[Fact]
-			public void ShouldReturnTestsRunEnum_WhenCalled()
+			public void ShouldReturn_TestsRunEnum_WhenCalled()
 			{
 				EmployeeDataService.InitializeProgramOptions();
 				Assert.Equal(

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Reflection;
 using Xunit;
 
 namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
@@ -18,10 +17,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 
 		public int StartExecutableProgram(string programName, string arguments, out string standardErrorOutput)
 	    {
-		    string assemblyFilePath = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
-		    var pathInformation = assemblyFilePath.Split(new [] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries);
-
-			var testProgram = new Process();
+		    var testProgram = new Process();
 		    testProgram.StartInfo.FileName = _executablePath;
 		    testProgram.StartInfo.Arguments = arguments;
 		    testProgram.StartInfo.CreateNoWindow = true;

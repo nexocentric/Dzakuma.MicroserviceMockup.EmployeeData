@@ -84,7 +84,8 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 				}
 
 				//TODO: Implement this as a fix for one of the failing tests
-				//correct answer is args.count
+				//      this illustrates what good test coverage can do
+				//      correct answer is args.count
 				/*if (extraParameters.Count == 0)
 				{
 					_internalLogger.Trace("This program requires arguments.");
