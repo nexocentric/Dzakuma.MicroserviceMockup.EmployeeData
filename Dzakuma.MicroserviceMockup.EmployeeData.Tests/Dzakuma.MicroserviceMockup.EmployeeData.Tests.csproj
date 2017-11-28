@@ -64,7 +64,6 @@
     <Compile Include="EmployeeDatabaseMockupTests.cs" />
     <Compile Include="EmployeeDataServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TransportSafeStringTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
