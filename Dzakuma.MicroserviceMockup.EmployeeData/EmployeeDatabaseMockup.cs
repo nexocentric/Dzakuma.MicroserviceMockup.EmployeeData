@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -15,6 +16,26 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 		{
 			var jsonData = JArray.Parse(File.ReadAllText(_dataSource));
 			return jsonData.ToString();
+		}
+
+		public string OutputPersonnelListHtml()
+		{
+			var data = new StringBuilder();
+			var jsonData = JArray.Parse(File.ReadAllText(_dataSource));
+
+			//TODO: part of the output html test
+			var header = "<tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>";
+			/*foreach (var item in jsonData)
+			{
+				data.AppendFormat(
+					"<tr><td>{0}</td><td>{1}</td><td>{2}</td></tr>",
+					item["id"],
+					item["first_name"],
+					item["last_name"]
+				);
+			}*/
+
+			return $"<table>{header}{data.ToString()}</table>";
 		}
 
 		public string OutputSinglePerson(uint selectedId)

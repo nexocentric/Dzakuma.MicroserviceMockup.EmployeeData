@@ -21,6 +21,19 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 			}
 		}
 
+		//TODO: part of the output personnel HTML test
+		/*public class OutputPersonnelListHtml
+		{
+			[Fact]
+			public void ShouldReturnHtmlTableString_WhenCalled()
+			{
+				Assert.Matches(
+					@"^<table>[\s\S]*<tr>[\s\S]*<th>[\s\S]*<tr>[\s\S]*<td>[\s\S]*<\/table>$",
+					new EmployeeDatabaseMockup().OutputPersonnelList()
+				);
+			}
+		}*/
+
 		public class OutputSinglePersion
 		{
 			[Fact]

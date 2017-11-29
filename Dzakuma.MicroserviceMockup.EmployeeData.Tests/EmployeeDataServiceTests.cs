@@ -55,7 +55,15 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 		public class DisplayVersionInformation
 		{
 			//TODO: implement display version information tests
-			//      should be exactly like display help test
+			/*[Fact]
+			public void ShouldReturn_VersionDisplayedEnum_WhenCalled()
+			{
+				EmployeeDataService.InitializeProgramOptions();
+				Assert.Equal(
+					(int)EmployeeDataService.RetunCodes.VersionInformationDisplayed,
+					EmployeeDataService.DisplayVersionInformation()
+				);
+			}*/
 		}
 
 		public class DisplayHelp
@@ -146,5 +154,18 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData.Tests
 				Assert.Empty(EmployeeDataService.OutputPersonnelList(false));
 			}
 		}
+
+		//TODO: part of the output html test
+		/*public class OutputPersonnelListHtml
+		{
+			[Fact]
+			public void ShouldReturn_BlankString_WhenOutputAndHtmlFlagsAreFalse()
+			{
+				//this tests the optional false
+				Assert.Empty(EmployeeDataService.OutputPersonnelList(false));
+				//this tests the explicit false
+				Assert.Empty(EmployeeDataService.OutputPersonnelList(false, false));
+			}
+		}*/
 	}
 }

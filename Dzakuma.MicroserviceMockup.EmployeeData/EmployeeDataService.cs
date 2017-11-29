@@ -14,6 +14,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 		private static bool _runTests = false;
 		private static bool _displayHelp = false;
 		private static uint _selectedId;
+		private static bool _outputHtml = false;
 
 		private static EmployeeDatabaseMockup _databaseConnection = new EmployeeDatabaseMockup();
 		private static OptionSet _programOptions;
@@ -61,8 +62,10 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 				}
 				Console.Error.Write(EncodeTextForCommandLine(OutputMoviePreferencesById(_selectedId, _outputMoviePreferences)));
 				Console.Error.Write(EncodeTextForCommandLine(OutputGeneralInformationById(_selectedId, _outputGeneralInformation)));
-				Console.Error.Write(EncodeTextForCommandLine(OutputPersonnelList(_outputPersonnelList)));
 
+				if (_outputHtml) { Console.Error.Write(OutputPersonnelList(_outputPersonnelList, _outputHtml)); }
+				Console.Error.Write(EncodeTextForCommandLine(OutputPersonnelList(_outputPersonnelList, _outputHtml)));
+			
 				return (int)RetunCodes.NormalOperation;
 			}
 			catch (Exception anomaly)
@@ -119,6 +122,8 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 				{ "m|movie", "Gets the movie preferences of the specified ID. ID must be specified.", o => { if (o != null) { _outputMoviePreferences = true; } } },
 				{ "g|general", "Gets general information for the specified ID. ID must be specified.", o => { if (o != null) { _outputGeneralInformation = true; } } },
 				{ "a|all", "Gets a list of all personnel.", o => { if (o != null) { _outputPersonnelList = true; } } },
+				//TODO: implement this test for the "WEB SERVICE side of things"
+				//{ "html", "Formats the output as HTML for a page.", o => { if (o != null) { _outputHtml = true; } } },
 			};
 		}
 
@@ -141,6 +146,7 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 			return (int)RetunCodes.HelpDisplayed;
 		}
 
+		//TODO: explain why void is bad
 		public static void DisplayVersionInformation()
 		{
 			Console.Error.Write("Program: ");
@@ -179,9 +185,11 @@ namespace Dzakuma.MicroserviceMockup.EmployeeData
 			return _databaseConnection.OutputGeneralInformation(selectedId);
 		}
 
-		public static string OutputPersonnelList(bool outputPersonnelList)
+		public static string OutputPersonnelList(bool outputPersonnelList, bool outputHtml = false)
 		{
 			if (!outputPersonnelList) { return ""; }
+			//TODO: part of the output html test
+			//if (outputHtml) { return _databaseConnection.OutputPersonnelListHtml(); }
 			return _databaseConnection.OutputPersonnelList();
 		}
 	}
